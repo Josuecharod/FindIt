@@ -7,7 +7,6 @@ package cliente;
 
 import controlador.Conexion;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,17 +36,15 @@ public class LoginClie extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession session=request.getSession();
         String correo = request.getParameter("correoLog");
         String pass = request.getParameter("passLog");
         
         if( correo!= null && pass!= null ){
             try {
                 Cliente clie = Conexion.LoginCliente(correo, pass);
-                if(!clie.getNombre().equals("")){
-                    
-                    request.getSession().setAttribute("usuario", clie);
-                    
+                if(clie.getNombre()!=null){  
+                    session.setAttribute("usuario", clie);    
                     response.sendRedirect("inicioClie.jsp");
                     return;
                 }
@@ -57,7 +54,6 @@ public class LoginClie extends HttpServlet {
             
         }
         
-        HttpSession session=request.getSession();
         session.setMaxInactiveInterval(5); //"tiempo de vida de la session"
         session.setAttribute("errorLog", true);
  

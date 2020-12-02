@@ -8,6 +8,7 @@ package trabajadores;
 import controlador.Conexion;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -36,22 +37,25 @@ public class LoginTra extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session=request.getSession();
         
         String correo = request.getParameter("correoLogT");
         String pass = request.getParameter("passLogT");
         
         if( correo!= null && pass!= null ){
-       
             try {
              Trabajador tra = Conexion.LoginTrabajador(correo, pass);
-           
-                if(!tra.getNombre().equals("")){
+
+                if(tra.getNombre() != null){
                     
-                    request.getSession().setAttribute("trabajador", tra);
+                    session.setAttribute("trabajador", tra);
                     
                     if(tra.getPuesto().equals("Administrador")){
-                        response.sendRedirect("inicioTrabajadorAdmin.jsp");
+                         session.setAttribute("listaLocales",Conexion.TraerListaLocales());
+                         session.setAttribute("listaTrabajadoresEncargados_Administracion", Conexion.TraerListaTrabajadoresEncargados());
+                         response.sendRedirect("inicioTrabajadorAdmin.jsp");
                     }else{
+                        session.setAttribute("listaChatsEncargado", Conexion.TraerListaDeChatsEncargado(tra.getDni()));
                         response.sendRedirect("inicioTrabajadorEncar.jsp");
                     }
                     return;
@@ -61,8 +65,7 @@ public class LoginTra extends HttpServlet {
             }
             
         }
-        
-        HttpSession session=request.getSession();
+
         session.setMaxInactiveInterval(5); //"tiempo de vida de la session"
         session.setAttribute("errorLog", true);
  

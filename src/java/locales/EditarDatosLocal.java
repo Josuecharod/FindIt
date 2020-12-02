@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador;
+package locales;
 
-import java.io.FileOutputStream;
+import controlador.Conexion;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,15 +17,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-import modelo.Cliente;
+import modelo.PuntoRecogida;
 
 /**
  *
  * @author RoyalRode
  */
-@WebServlet(name = "SubirFoto", urlPatterns = {"/SubirFoto"})
-public class SubirFoto extends HttpServlet {
+@WebServlet(name = "EditarDatosLocal", urlPatterns = {"/EditarDatosLocal"})
+public class EditarDatosLocal extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,31 +35,24 @@ public class SubirFoto extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-  public static final int TAM_BUFFER = 4 * 1024;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         
-        HttpSession session= request.getSession(true);
-        Cliente clie= (Cliente)session.getAttribute("usuario");
+        PuntoRecogida pr = new PuntoRecogida();
+        pr.setId(Integer.parseInt(request.getParameter("id")));
+        pr.setNombre(request.getParameter("nombreEdit"));
+        pr.setDireccion(request.getParameter("direccionEdit"));
+        pr.setLocalidad(request.getParameter("localidadEdit"));
+        pr.setProvincia(request.getParameter("provinciaEdit"));
+        pr.setTelefono(request.getParameter("telefonoEdit"));
+        pr.setPersona_contacto(request.getParameter("nombrePersonaEdit"));
         
-        Part parte = request.getPart("fichero");
-        String nombreFichero = parte.getSubmittedFileName();
-        InputStream entrada = parte.getInputStream();
-        String ruta = getServletContext().getRealPath("/imagenes")+ "/" + nombreFichero;
-        FileOutputStream salida = new FileOutputStream(ruta);
-        byte[] buffer = new byte[TAM_BUFFER];
+        Conexion.EditarDatosLocal(pr);
         
-        while (entrada.available() > 0) {
-            int tam = entrada.read(buffer);
-            salida.write(buffer, 0, tam);
-        }
+        HttpSession session = request.getSession();
+        session.setAttribute("listaLocales",Conexion.TraerListaLocales());
+        request.getRequestDispatcher("inicioTrabajadorAdmin.jsp").forward(request, response);
         
-        salida.close();
-        entrada.close();
-        
-        Conexion.CambioFoto(clie);
-        
-        response.sendRedirect("inicio.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -75,11 +67,11 @@ public class SubirFoto extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      try {
-          processRequest(request, response);
-      } catch (SQLException ex) {
-          Logger.getLogger(SubirFoto.class.getName()).log(Level.SEVERE, null, ex);
-      }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditarDatosLocal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -93,11 +85,11 @@ public class SubirFoto extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-      try {
-          processRequest(request, response);
-      } catch (SQLException ex) {
-          Logger.getLogger(SubirFoto.class.getName()).log(Level.SEVERE, null, ex);
-      }
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditarDatosLocal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

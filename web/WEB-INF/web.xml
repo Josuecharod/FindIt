@@ -5,12 +5,12 @@
          version="3.1">
     <session-config>
         <session-timeout>
-            30
+            60
         </session-timeout>
     </session-config>
     <servlet>
         <servlet-name>SubirFoto</servlet-name>
-        <servlet-class>controlador.SubirFoto</servlet-class>
+        <servlet-class>cliente.SubirFoto</servlet-class>
         <multipart-config>
             <max-file-size>1000000</max-file-size>
             <file-size-threshold>1000000</file-size-threshold>
@@ -19,5 +19,17 @@
     <servlet-mapping>
         <servlet-name>SubirFoto</servlet-name>
         <url-pattern>/SubirFoto</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SubirFotoObjeto</servlet-name>
+        <servlet-class>cliente.SubirFotoObjeto</servlet-class>
+        <multipart-config>
+            <max-file-size>1000000</max-file-size>
+            <file-size-threshold>1000000</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SubirFotoObjeto</servlet-name>
+        <url-pattern>/SubirFotoObjeto</url-pattern>
     </servlet-mapping>
 </web-app>

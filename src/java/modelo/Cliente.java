@@ -22,7 +22,7 @@ public class Cliente {
     String pass;
 
     public Cliente() {
-        this.fotoperfil = "usudefecto.png";
+        this.fotoperfil = "usudefecto1.png";
     }
 
     public Cliente(String dni, String nombre, String apellidos, String telefono, String localidad, String provincia, String direccion, String correo, String pass) {
@@ -35,7 +35,7 @@ public class Cliente {
         this.direccion = direccion;
         this.correo = correo;
         this.pass = pass;
-        this.fotoperfil = "usudefecto.png";
+        this.fotoperfil = "usudefecto1.png";
     }
 
     public String getDni() {

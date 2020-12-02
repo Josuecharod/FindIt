@@ -5,7 +5,11 @@
  */
 package cliente;
 
+import controlador.Conexion;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,11 +32,13 @@ public class FormularioObjeto extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       
+            throws ServletException, IOException, SQLException {
         HttpSession session=request.getSession();
+        
+        session.setAttribute("listaLocales", Conexion.TraerListaLocales());
         session.setAttribute("verFormularioObjeto", true);
  
         request.getRequestDispatcher("inicioClie.jsp").forward(request, response);
@@ -50,7 +56,11 @@ public class FormularioObjeto extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormularioObjeto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -64,7 +74,11 @@ public class FormularioObjeto extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormularioObjeto.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -22,9 +22,10 @@
 		$(document).ready(function(){
                         $('#bRegistro').attr('disabled','disabled');
 			$('#login').fadeOut();
+                        $('#reg').fadeOut();
 			$('#sombra').fadeOut();
 
-			$('#inicio').click(function(){
+			$('.inicio').click(function(){
 				$('body').css("overflow","hidden");
 				
 				$('#sombra').fadeIn(1300);
@@ -84,35 +85,32 @@
 </head>
 <body>
         <!-- Bloques invisibles de login y registro -->
-	<div id="login">
-            <a id="close" class="text-light m-2 pull-right"><i class="fa fa-window-close icono"></i></a>
+	<div id="login" class="pb-2">
+            <a id="close" class="m-2 pull-right"><i class="fa fa-window-close close-modal"></i></a>
 		
             <div id="bLogin">
-                <p class="h2 text-center">Unete para disfrutar de todas nuestras funciones</p>
-                <!-- <small id="errorLog" class="form-text text-danger"></small> -->
+                <p class="h2">Únete para disfrutar de todas nuestras funciones</p>
                 
                 <form class="pt-3" action="LoginClie" method="post">
                   <div class="form-group">
-                    <label for="correoLog" class="h4">Dirección de correo</label>
-                    <input type="email" class="form-control" id="correoLog" name="correoLog" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" required>
+                    <input type="email" class="form-control py-3" id="correoLog" name="correoLog" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="Correo electrónico *" required>
                   </div>
                   <div class="form-group">
-                    <label for="passLog" class="h4">Contraseña</label>
-                    <input type="password" class="form-control" id="passLog" name="passLog" placeholder="Puede contener cualquier caracter" required>
+                    <input type="password" class="form-control py-3" id="passLog" name="passLog" placeholder="Contraseña *" required>
                   </div>
 
                   <p class="text-secondary">Al iniciar sesión, aceptas la Política de privacidad y los Términos de uso de Find It!.</p>
-                  <input type="submit" name="envio" value="Iniciar Sesion" class="btn btn-outline-light col-sm-6 offset-sm-3">
+                  <input type="submit" name="envio" value="Iniciar Sesion" class="btn col-lg-4 offset-lg-4 btn-modal">
                 </form>
 
-                <p class="mt-2 col-md-6 offset-md-3"> ¿No eres miembro? <a id="registro" href="#">Registrate!!</a></p>
+                <p class="mt-2 col-lg-4 offset-lg-4 px-0">¿No eres miembro? <a id="registro" href="#">Registrate!!</a></p>
             </div>
 	</div>
 
 	<div id="reg">
-            <a id="close2" class="text-light m-2 pull-right"><i class="fa fa-window-close icono"></i></a>
+            <a id="close2" class="m-2 pull-right"><i class="fa fa-window-close close-modal"></i></a>
             <div id="bLogin">
-                <p class="h2 text-center">Registrate y se uno mas de FIND IT!</p>
+                <p class="h2">Registrate y se uno mas de FIND IT!</p>
                 <form class="pt-3" action="RegistroClie" method="post">
                     <div class="row">
                         <div id="izq" class="col-6">
@@ -169,7 +167,7 @@
                                 }
                             </script>
                         
-                            <input type="submit" name="registro" id="bRegistro" value="Registrate!" class="btn btn-outline-light btn-block">
+                            <input type="submit" name="registro" id="bRegistro" value="Registrate!" class="btn btn-block btn-modal">
                         </div>
                     </div>
                 </form>
@@ -184,35 +182,192 @@
         
 	<main id="principal" class="container-fluid p-0">
 		<nav class="navbar navbar-expand-lg navbar-light" id="barra">
-		  <button class="btn btn-outline-light m-4" id="inicio">Iniciar Sesion</button>
+		  <button class="btn m-4 btn-modal inicio">Iniciar Sesion</button>
 		</nav>
 		
-		<div id="busqueda" class="col-sm-6 offset-sm-3 text-center">
-			<img src="imagenes/logo.png" width="250px" height="200px">
-			<p class="lead font-weight-bold">Una página única para encontrar tus objetos perdidos</p>
+		<div id="busqueda" class="col-lg-6 offset-lg-3 text-center">
+			<img src="imagenes/filogo1.png" width="275px" height="150px">
+			<p class="lead font-weight-bold text-light mt-4">Una página única para encontrar tus objetos perdidos</p>
 			<form>
 			  <div class="form-row">
 			    <div class="col">
-			      <input type="text" class="form-control mr-2" placeholder="Nombre del objeto">
+			      <input type="text" class="form-control mr-2 py-4" placeholder="Nombre del objeto">
 			    </div>
 			    <div class="col">
-			      <input type="text" class="form-control mr-2" placeholder="Ciudad">
+			      <input type="text" class="form-control mr-2 py-4" placeholder="Localidad">
 			    </div>
 			    <div>
-			       <button class="btn btn-outline-light" type="submit"><i class="fa fa-search"></i></button>
+			       <a class="btn ml-1 btn-busqueda btn-modal inicio"><i class="fa fa-search text-light"></i></a>
 			    </div>
 			  </div>
 			</form>
-			<p> <a class="btn btn-dark text-light m-4" id="inicio">He encontrado un objeto perdido</a></p>
+			<p> <a class="btn boton-oscuro text-light mt-4 inicio">He encontrado un objeto perdido</a></p>
 		</div>
-
 	</main>
+        <script>
+           const principal = document.getElementById("principal");
+           
+           window.addEventListener("scroll",function(){
+              principal.style.backgroundSize = 160 - +window.pageYOffset/12+'%';
+              principal.style.opacity = 1 - +window.pageYOffset/1200;
+           });
+        </script>
 	
-	<div id="informacion" class="col-sm-8 offset-sm-2 p-0 mt-3">
-		<h2>Categorias</h2>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet voluptatibus voluptate excepturi delectus eligendi esse quasi maiores assumenda qui odit eum incidunt asperiores vitae commodi quidem neque, consequuntur, sit officiis. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab libero minima illo pariatur. Veniam harum autem iste, fugiat aliquam rerum corporis excepturi dignissimos nulla eaque aliquid ullam impedit vitae ad.</p>
-                <h1>Añadir mucha informacion y un footer</h1>
+	<div id="informacion" class="col-sm-10 offset-sm-1 py-4 mt-5">
+            <div class="form-row d-flex align-items-stretch ">
+                <div class="col-12 col-md-6 p-4 fondo-texto-gris d-flex flex-column justify-content-center">
+                    <p class="h2 pb-3 ">Encuentra de manera facil tu objeto</p>
+                    <p>En nuestra página todo es sencillo, simplemente busca por tu zona y habla con nuestros administradores quienes te verificaran
+                       cual es tu objeto y donde se encuentra a salvo</p>
+                </div>
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                    <img src="imagenes/busquedaSencilla.png" class='imagenes-cambios'>
+                </div>
+            </div>
+            <div class="form-row d-flex align-items-stretch flex-column-reverse flex-md-row">
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                    <img src="imagenes/localesRecogida.png" class='imagenes-cambios'>
+                </div>
+                <div class="col-12 col-md-6 fondo-texto-verde p-4 d-flex flex-column justify-content-center">
+                    <p class="h2 pb-3">Locales de recogida</p>
+                    <p>Tenemos asociados cientos de locales, donde podrás dejar los objetos que encuentres de manera sencilla y solo con un click</p>
+                </div>
+            </div>
+            <div class="form-row d-flex align-items-stretch ">
+                <div class="col-12 col-md-6 p-4 fondo-texto-gris d-flex flex-column justify-content-center">
+                    <p class="h2 pb-3 ">Ayuda a millones de personas</p>
+                    <p>Sube a nuestra página cualquier cosa que encuentres y quieras que esa persona lo recupere.</br>
+                       Ayudarás a muchas personas y haz lo que te gustaría que hicieran si pierdes tu móvil, ordenador o incluso
+                       un colgante que signifique mucho para ti
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                    <img src="imagenes/personasAyuda.png" class='imagenes-cambios'>
+                </div>
+            </div>
+            <div class="form-row d-flex align-items-stretch flex-column-reverse flex-md-row">
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                   <img src="imagenes/mapas.png" class='imagenes-cambios'>
+                </div>
+                <div class="col-12 col-md-6 fondo-texto-verde p-4 d-flex flex-column justify-content-center">
+                    <p class="h2 pb-3 ">Mapas, la mejor manera de localizarte</p>
+                    <p>El uso de mapas es y será la principal herramienta de esta página, cada vez añadiremos más funciones
+                       y será comodísimo encontrar todo lo que necesites
+                    </p>
+                </div>
+            </div>
+            <div class="form-row d-flex align-items-stretch ">
+                <div class="col-12 col-md-6 p-4 fondo-texto-gris d-flex flex-column justify-content-center">
+                    <p class="h2 pb-3 p-4 ">Cambios y planes a futuro</p>
+                    <p>Esta página esta pensada actualmente para el municipio de Sevilla, pero en el futuro será
+                        accesible para cada vez más personas, ayudanos a conseguir que todos encuentren su objeto perdido
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                    <img src="imagenes/cambios.png" class='imagenes-cambios'>
+                </div>
+            </div>
+            <div class="form-row d-flex align-items-stretch flex-column-reverse flex-md-row mb-5">
+                <div class="col-12 col-md-6 d-flex justify-content-center">
+                    <img src="imagenes/redesSociales.png" class='imagenes-cambios'>
+                    
+                </div>
+                <div class="col-12 col-md-6 fondo-texto-verde p-4 d-flex flex-column justify-content-center">
+                    <p class="h2 pb-3">Siguenos en nuestras redes sociales</p>
+                    <p>Siguenos en todas nuestras redes y enterate de las actualizaciones y ayudanos a crecer con 
+                       tus opiniones ¿A qué esperas?
+                    </p>
+                </div>
+            </div>
         </div>
+        
+        <footer class="font-small pt-4 ft-cuerpo mt-5">
+            <!-- Footer Links -->
+            <div class="container text-center text-md-left">
+
+              <!-- Grid row -->
+              <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-4 mx-auto">
+                  <!-- Content -->
+                  <h5 class="font-weight-bold text-uppercase text-light mt-3 mb-4">FIND IT</h5>
+                  <p class="text-light">Gracias por formar parte de Find It! Trabajamos codo a codo con Google Maps para mejorar la calidad de nuestro servicio</p>
+                </div>
+                <!-- Grid column -->
+
+                <hr>
+
+                <!-- Grid column -->
+                <div class="col-md-2 mx-auto">
+                  <!-- Links -->
+                  <ul class="list-unstyled">
+                    <li>
+                      <a href="#!">CONDICIONES DE USO</a>
+                    </li>
+                    <li>
+                      <a href="#!">POLÍTICA DE PRIVACIDAD</a>
+                    </li>
+                    <li>
+                      <a href="#!">POLÍTICA DE COOKIES</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- Grid column -->
+
+                <hr>
+
+                <!-- Grid column -->
+                <div class="col-md-2 mx-auto">
+                  <!-- Links -->
+                  <ul class="list-unstyled">
+                    <li>
+                      <a href="#!">CONTACTA CON NOSOTROS</a>
+                    </li>
+                    <li>
+                      <a href="#!">SOPORTE TÉCNICO</a>
+                    </li>
+                    <li>
+                      <a href="#!">GOOGLE MAPS</a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- Grid column -->
+              </div>
+              <!-- Grid row -->
+            </div>
+            <!-- Footer Links -->
+
+            <!-- Social buttons -->
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a class="mx-1">
+                  <i class="fa fa-facebook-f"> </i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class=" mx-1">
+                  <i class="fa fa-twitter"> </i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="mx-1">
+                  <i class="fa fa-google"> </i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a class="mx-1">
+                  <i class="fa fa-linkedin"> </i>
+                </a>
+              </li>
+            </ul>
+            <!-- Social buttons -->
+
+            <!-- Copyright -->
+            <div class=" text-center py-3 ft-fin text-light"> &copy; 2020 Copyright:
+              <a href="#"> FindIt.com</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
 
 </body>
 </html>

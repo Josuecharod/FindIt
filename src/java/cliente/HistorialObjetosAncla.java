@@ -39,7 +39,6 @@ public class HistorialObjetosAncla extends HttpServlet {
             throws ServletException, IOException, SQLException {
         
         HttpSession session = request.getSession();
-        session.removeAttribute("ObjetoCreado");
         Cliente clie = (Cliente)session.getAttribute("usuario");
         session.setAttribute("verHistorialObjetos", true);
         //Creamos una sesion con la lista de los obejtos perdidos asociados a este cliente

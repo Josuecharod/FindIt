@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="es">
      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -182,7 +183,7 @@
         
 	<main id="principal" class="container-fluid p-0">
 		<nav class="navbar navbar-expand-lg navbar-light" id="barra">
-		  <button class="btn m-4 btn-modal inicio">Iniciar Sesion</button>
+		  <button class="btn m-0 my-2 btn-modal inicio">Iniciar Sesion</button>
 		</nav>
 		
 		<div id="busqueda" class="col-lg-6 offset-lg-3 text-center">
@@ -208,7 +209,8 @@
            const principal = document.getElementById("principal");
            
            window.addEventListener("scroll",function(){
-              principal.style.backgroundSize = 160 - +window.pageYOffset/12+'%';
+              //principal.style.backgroundSize = 160 - +window.pageYOffset/12+'%';
+              principal.style.backgroundSize = 'cover';
               principal.style.opacity = 1 - +window.pageYOffset/1200;
            });
         </script>
@@ -341,22 +343,22 @@
             <ul class="list-inline text-center">
               <li class="list-inline-item">
                 <a class="mx-1">
-                  <i class="fa fa-facebook-f"> </i>
+                  <i class="fa fa-facebook-f close-modal"> </i>
                 </a>
               </li>
               <li class="list-inline-item">
                 <a class=" mx-1">
-                  <i class="fa fa-twitter"> </i>
+                  <i class="fa fa-twitter close-modal"> </i>
                 </a>
               </li>
               <li class="list-inline-item">
                 <a class="mx-1">
-                  <i class="fa fa-google"> </i>
+                  <i class="fa fa-google close-modal"> </i>
                 </a>
               </li>
               <li class="list-inline-item">
                 <a class="mx-1">
-                  <i class="fa fa-linkedin"> </i>
+                  <i class="fa fa-linkedin close-modal"> </i>
                 </a>
               </li>
             </ul>

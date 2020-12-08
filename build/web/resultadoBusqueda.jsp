@@ -10,8 +10,15 @@
 <%@page import="modelo.ObjetoPerdido"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    //si no existe la session de usuario, que es con la que trabajamos en las ventanas de usuario, se vuelve para el index.jsp
+    if(!(session.getAttribute("usuario")!= null)){
+       request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+%>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -46,46 +53,57 @@
             
             <div class="container-fluid">
                 <%     Cliente clie = (Cliente)session.getAttribute("usuario");
-                       List<ObjetoPerdido> listObj = (List<ObjetoPerdido>)session.getAttribute("objetosLista"); 
-                       if(listObj.size()!=0){ %>
+                       List<ObjetoPerdido> listObj = (List<ObjetoPerdido>)session.getAttribute("objetosLista");
+                       int control = (Integer)session.getAttribute("cuenta");
+                       
+                       if(control != 0){ %>
                 <table class="table mt-4">
-                        <thead class="table-dark">
+                        <thead style="background-color: #353449; color:#FFFFFF;">
                         <tr>
                             <th> NOMBRE </th>
                             <th> DIRECCION ENCONTRADO </th>
+                            <th><%-- Hueco para boton mapa --%></th>
                             <th> FECHA Y HORA </th>
                             <th> <%-- Hueco para boton chat --%> </th>
                         </tr>
                         </thead>
                         <tbody>
-                    <% for(ObjetoPerdido op : listObj){ %>
+                    <% for(ObjetoPerdido op : listObj){ 
+                       if(!op.getEstado()){
+                    %>
                         <tr>
                             <td><%= op.getNombre()%></td>
-                            <td><%= op.getDireccion_encontrado()%> , <%=op.getLocalidad()%>
-                                <button type="button" class="btn btn-modal" data-toggle="modal" data-target="#modalMapa" onclick="MapaConPunto('<%= op.getDireccion_encontrado() %>,<%=op.getLocalidad()%> <%= op.getProvincia()%> ')">
+                            <td><%= op.getDireccion_encontrado()%> , <%=op.getLocalidad()%></td>
+                            <td><button type="button" class="btn btn-modal" data-toggle="modal" data-target="#modalMapa" onclick="MapaConPunto('<%= op.getDireccion_encontrado() %>,<%=op.getLocalidad()%> <%= op.getProvincia()%> ')">
                                     Ver en el mapa
-                                </button>
-                            </td>
+                            </button></td>
                             <td><%= op.getFecha_subida()%></td>
-                            <% List<Chat> listChat = (List<Chat>)session.getAttribute("listaChats"); 
+                           
+                            <% boolean fin = false;
+                               Chat ch = new Chat();
+                               List<Chat> listChat = (List<Chat>)session.getAttribute("listaChats"); 
                                if(listChat.size()==0){ %>
                                 <td><a class="btn btn-modal" href="NuevoChat?id_objeto=<%=op.getId()%>&id_persona=<%=clie.getDni()%>&id_responsable=<%=op.getDni_persona_responsable()%>" role="button">Abrir nuevo chat</a></td>
-                            <% }else{ 
-                                for(Chat ch : listChat){
-                                    if(ch.getId_objeto_fk() == op.getId() && ch.getDni_persona_fk().equals(clie.getDni())){
+                            <% }else{
+                                for(Chat chat : listChat){
+                                  if(chat.getId_objeto_fk() == op.getId() && chat.getDni_persona_fk().equals(clie.getDni())){
+                                    fin = true;
+                                    ch = chat;
+                                  } }  
+                                if(fin){
                             %>
                                 <td><a class="btn btn-modal" href="CargarChat?id_objeto=<%=op.getId()%>&id_persona=<%=clie.getDni()%>&id_responsable=<%=op.getDni_persona_responsable()%>" role="button">Ir al chat</a></td>  
                             <% }else{ %>
                                 <td><a class="btn btn-modal" href="NuevoChat?id_objeto=<%=op.getId()%>&id_persona=<%=clie.getDni()%>&id_responsable=<%=op.getDni_persona_responsable()%>" role="button">Abrir nuevo chat</a></td>
-                            <% } } } %>
+                            <% } }%>
                         </tr>
-                    <%  } %>
+                    <% } } %>
                         </tbody>
                     </table>
                   <% }else{ %>
                     <div class="form-row d-flex align-items-stretch flex-column-reverse flex-md-row">
                         <div class="col-12 col-md-6 d-flex justify-content-center">
-                            <img src="imagenes/undraw_empty_xct9.png" class='imagenes-cambios'>
+                            <img src="imagenes/sinBusqueda.png" class='imagenes-cambios'>
                         </div>
                         <div class="col-12 col-md-6 fondo-texto-verde p-4 d-flex flex-column justify-content-center">
                             <p class="h2">No hay ningún resultado para tu búsqueda, intentelo de nuevo.</p>

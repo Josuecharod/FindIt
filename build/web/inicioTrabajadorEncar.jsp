@@ -4,11 +4,23 @@
     Author     : RoyalRode
 --%>
 
+<%@page import="modelo.Cliente"%>
+<%@page import="modelo.ObjetoPerdido"%>
+<%@page import="controlador.Conexion"%>
+<%@page import="modelo.Chat"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.List"%>
 <%@page import="modelo.Trabajador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    if(!(session.getAttribute("trabajador")!= null)){
+       request.getRequestDispatcher("indexTra.jsp").forward(request, response);
+    }
+%>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,30 +42,42 @@
             </nav>
             
             <div  class="container-fluid">
+                <% List<Chat> chats = (List<Chat>)session.getAttribute("listaChatsEncargado"); 
+                   if(chats.size()!=0){
+                %>
                 <table class="table mt-4">
-                        <thead class="table-dark">
+                        <thead style="background-color: #353449; color:#FFFFFF;">
                         <tr>
-                            <th> </th>
-                            <th> </th>
-                            <th> </th>
-                            <th> </th>
-                            <th> <%-- Hueco para boton editar --%> </th>
+                            <th> ID CHAT </th>
+                            <th> PERSONA CON LA QUE HABLA </th>
+                            <th> <%-- Hueco para boton ir chat --%> </th>
                         </tr>
                         </thead>
                         <tbody>
-                    <% 
-
-                    %>
+                        <% for(Chat c : chats){
+                            Cliente clie = Conexion.cogerCliente(c.getDni_persona_fk());
+                            ObjetoPerdido o = Conexion.cogerObjeto(c.getId_objeto_fk());
+                            if(!o.getEstado()){ //Si el objeto no ha sido encontrado, muestro el chat referido a dicho objeto
+                        %>
                             <tr>
-                            <td><</td>   
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><%=c.getId()%></td>   
+                            <td><%=clie.getNombre()%> <%= clie.getApellidos() %></td>
+                            <td><a class="btn btn-modal" href="CargarChat?id_objeto=<%=c.getId_objeto_fk() %>&id_persona=<%=c.getDni_persona_fk() %>&id_responsable=<%=c.getDni_responsable_fk() %>" role="button">Ir al chat</a></td>
                             </tr>
-                    <%  } %>   
+                    <% } } %>   
                         </tbody>
                     </table>
+                    <% }else{ %>
+                      <div class="form-row d-flex align-items-stretch flex-column-reverse flex-md-row">
+                        <div class="col-12 col-md-6 d-flex justify-content-center">
+                            <img src="imagenes/noCurro.png" class='imagenes-cambios'>
+                        </div>
+                        <div class="col-12 col-md-6 fondo-texto-verde p-4 d-flex flex-column justify-content-center">
+                            <p class="h2">Ahora mismo, no tienes ningun chat, para los objetos asociados
+                                          <br>Descansa, ya te llegará curro</p>
+                        </div>
+                    </div>
+                    <% } %>
             </div>
         </main>
     </body>

@@ -9,8 +9,14 @@
 <%@page import="modelo.Trabajador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    if(!(session.getAttribute("trabajador")!= null)){
+       request.getRequestDispatcher("indexTra.jsp").forward(request, response);
+    }
+%>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -31,18 +37,19 @@
                 
             </nav>
             
-            <div id="tablaTrabajadores" class="container-fluid row">
-                <div class="col-3 bloque-izq">
-                   <p class="h5 p-3 text-center">DATOS PERSONALES</p>
+            <div id="tablaTrabajadores" class="container-fluid form-row d-flex align-items-stretch p-0">
+                <div class="col-md-3 col-12 bloque-izq mt-md-0 mt-2 p-3">
+                    <p class="h5 p-4 text-center">DATOS PERSONALES</p>
                     <p><strong>Nombre:</strong><br><%= tra.getNombre() %></p>
                     <p><strong>Apellidos:</strong><br><%= tra.getApellidos() %></p>
                     <p><strong>Correo:</strong><br><%= tra.getCorreo() %></p>
                     <p><a href="editarDatosTrabajador.jsp?dni=<%= tra.getDni() %>" class="btn btn-modal btn-block" role="button">Editar datos</a></p>
                 </div>
-                <div class="col-9">
+                <div class="col-md-9 col-12">
                     <div class="container-fluid">
+                    <div style="overflow-x:scroll;">
                     <table class="table mt-4">
-                        <thead class="table-dark">
+                        <thead style="background-color: #353449; color:#FFFFFF;">
                         <tr>
                             <th> DNI </th>
                             <th> NOMBRE COMPLETO </th>
@@ -85,9 +92,11 @@
                             </tr>
                         </tfoot>
                     </table>
+                    </div>
                     
+                    <div style="overflow-x:scroll;">          
                     <table class="table mt-4">
-                        <thead class="table-dark">
+                        <thead style="background-color: #353449; color:#FFFFFF;">
                         <tr>
                             <th> NOMBRE LOCAL </th>
                             <th> DIRECCION </th>
@@ -129,6 +138,7 @@
                              </tr>
                         </tfoot>
                     </table>
+                    </div>                  
                   </div>
                 </div>
             </div>

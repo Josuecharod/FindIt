@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cliente;
+package chats;
 
 import controlador.Conexion;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,13 +18,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import modelo.Chat;
+
 
 /**
  *
  * @author RoyalRode
  */
-@WebServlet(name = "buscarObjeto", urlPatterns = {"/buscarObjeto"})
-public class buscarObjeto extends HttpServlet {
+@WebServlet(name = "CargarChat", urlPatterns = {"/CargarChat"})
+public class CargarChat extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,31 +40,23 @@ public class buscarObjeto extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        HttpSession session=request.getSession();
-        String nombre = request.getParameter("nombreBusqueda");
-        String localidad = request.getParameter("localidadBusqueda");
+
+        PrintWriter out = response.getWriter();
+        int id_objeto = Integer.parseInt(request.getParameter("id_objeto"));
+        String dni_persona = request.getParameter("id_persona");
+        String dni_responsable = request.getParameter("id_responsable");
         
+        Chat ct = new Chat();
+        ct.setDni_persona_fk(dni_persona);
+        ct.setDni_responsable_fk(dni_responsable);
+        ct.setId_objeto_fk(id_objeto);
         
-        if(nombre.equals("") && localidad.equals("")){
-            response.sendRedirect("inicioClie.jsp");
-        }else{
-            if(!nombre.equals("") && !localidad.equals("")){
-                session.setAttribute("objetosLista",Conexion.busquedaObjetosDosCondiciones(nombre,localidad));
-                session.setAttribute("cuenta", Conexion.busquedaObjetosDosCondicionesCuenta(nombre, localidad));
-            }else{
-                if(!nombre.equals("") && localidad.equals("")){
-                     session.setAttribute("objetosLista",Conexion.busquedaObjetosPorNombre(nombre));
-                     session.setAttribute("cuenta",Conexion.busquedaObjetosPorNombreCuenta(nombre));
-                }else{
-                    if(nombre.equals("") && !localidad.equals("")){
-                         session.setAttribute("objetosLista",Conexion.busquedaObjetosPorLocalidad(localidad)); 
-                         session.setAttribute("cuenta", Conexion.busquedaObjetosPorLocalidadCuenta(localidad));
-                  }
-                }           
-              }
-            session.setAttribute("listaChats", Conexion.TraerListaDeChats());
-            response.sendRedirect("resultadoBusqueda.jsp");
-        }
+        HttpSession session = request.getSession();
+        Chat chat = Conexion.CogerChat(dni_persona, dni_responsable,id_objeto);
+        session.setAttribute("Chat", chat);
+        session.setAttribute("objetoInformacion", Conexion.cogerObjeto(id_objeto));
+        
+        response.sendRedirect("verChat.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,7 +74,7 @@ public class buscarObjeto extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(buscarObjeto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CargarChat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -96,7 +92,7 @@ public class buscarObjeto extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(buscarObjeto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CargarChat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

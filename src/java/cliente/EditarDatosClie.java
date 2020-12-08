@@ -42,8 +42,9 @@ public class EditarDatosClie extends HttpServlet {
        clie.setLocalidad(request.getParameter("localidadEdit"));
        clie.setProvincia(request.getParameter("provinciaEdit"));
        clie.setDireccion(request.getParameter("direccionEdit"));
+       clie.setCorreo(request.getParameter("correoEdit"));
+       clie.setPass(request.getParameter("passEdit"));
        
-       System.out.println(clie);
        Conexion.editarDatosCliente(clie);
        
        session.setAttribute("usuario", clie);

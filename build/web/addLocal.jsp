@@ -6,8 +6,14 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    if(!(session.getAttribute("trabajador")!= null)){
+       request.getRequestDispatcher("indexTra.jsp").forward(request, response);
+    }
+%>
 <html lang="es">
      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -20,27 +26,28 @@
 </head>
 <body>
 	<main id="principal2" class="container-fluid p-0 d-flex justify-content-center align-items-center">
-            <div id="busqueda" class="text-center ">
+            <div id="busqueda" class="text-center container-fluid">
 			<p class="lead font-weight-bold">Inserta un nuevo local</p>
-			<form class="col-lg-10 offset-lg-1 text-center" action="AddLocal" method="post">
+			<form class="col-lg-8 offset-lg-2 text-center" action="AddLocal" method="post">
                             <div class="form-row">
                             <div class="col-6">
-                                <p>Nombre Local</p>
-                                <input type="text" name="nombre" class="form-control mb-2" required>
-                                <p>Nombre Persona Responsable</p>
-                                <input type="text" name="nombrePersona" class="form-control mb-2"  required>
-                                <p>Telefono</p>
-                                 <input type="text" name="telefono" class="form-control" pattern="[0-9]{9}" required>
+                                <p class="text-left mb-0">Nombre Local</p>
+                                <input type="text" name="nombre" class="form-control mb-2 mt-1" required>
+                                <p class="text-left mb-0">Contacto</p>
+                                <input type="text" name="nombrePersona" class="form-control mb-2 mt-1"  required>
+                                <p class="text-left mb-0">Telefono</p>
+                                <input type="text" name="telefono" class="form-control mt-1" pattern="[0-9]{9}" required>
+                                <input type="submit" name="envio" value="Crear nuevo local" class="btn btn-modal btn-block mt-4">
                             </div>
                             <div class="col-6">                           
-                                <p>Direccion</p>
-                                <input type="text" name="direccion" class="form-control mb-2" required>
-                                <p>Localidad</p>
-                                <input type="text" name="localidad" class="form-control mb-2" required>
-                                <p>Provincia</p>
-                                 <input type="text" name="provincia" class="form-control" required>
-                            </div>                    
-                            <p><input type="submit" name="envio" value="Crear nuevo local" class="btn m-4 btn-modal inicio"><a href="inicioTrabajadorAdmin.jsp" class="btn btn-modal inicio">Cancelar</a></p>
+                                <p class="text-left mb-0">Direccion</p>
+                                <input type="text" name="direccion" class="form-control mb-2 mt-1" required>
+                                <p class="text-left mb-0">Localidad</p>
+                                <input type="text" name="localidad" class="form-control mb-2 mt-1" required>
+                                <p class="text-left mb-0">Provincia</p>
+                                <input type="text" name="provincia" class="form-control mt-1" required>
+                                <a href="inicioTrabajadorAdmin.jsp" class="btn btn-modal btn-block mt-4">Cancelar</a> 
+                            </div>                   
                             </div>
                         </form>
 		</div>

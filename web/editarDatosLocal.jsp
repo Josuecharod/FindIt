@@ -8,8 +8,14 @@
 <%@page import="modelo.PuntoRecogida"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    if(!(session.getAttribute("trabajador")!= null)){
+       request.getRequestDispatcher("indexTra.jsp").forward(request, response);
+    }
+%>
 <html lang="es">
      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -22,31 +28,32 @@
 </head>
 <body>
 	<main id="principal2" class="container-fluid p-0 d-flex justify-content-center align-items-center">
-            <div id="busqueda" class="text-center ">
+            <div id="busqueda" class="text-center container-fluid">
                         <% 
                             int id = Integer.parseInt(request.getParameter("id"));
                             PuntoRecogida pr = Conexion.TraerLocalPorID(id);      
                         %>
 			<p class="lead font-weight-bold">Editar los datos del encargado seleccionado: </p>
-			<form class="col-lg-10 offset-lg-1 text-center" action="EditarDatosLocal?id=<%= id %>" method="post">
+			<form class="col-lg-8 offset-lg-2 text-center" action="EditarDatosLocal?id=<%= id %>" method="post">
                             <div class="form-row">
                             <div class="col-6">
-                                <p>Nombre Local</p>
-                                <input type="text" name="nombreEdit" class="form-control mb-2" value="<%= pr.getNombre()%>" required>
-                                <p>Nombre Persona Responsable</p>
-                                <input type="text" name="nombrePersonaEdit" class="form-control mb-2" value="<%= pr.getPersona_contacto() %>" required>
-                                <p>Telefono</p>
-                                 <input type="text" name="telefonoEdit" class="form-control" pattern="[0-9]{9}" value="<%= pr.getTelefono() %>" required>
+                                <p class="text-left mb-0">Nombre Local</p>
+                                <input type="text" name="nombreEdit" class="form-control mb-2 mt-1" value="<%= pr.getNombre()%>" required>
+                                <p class="text-left mb-0">Contacto</p>
+                                <input type="text" name="nombrePersonaEdit" class="form-control mb-2 mt-1" value="<%= pr.getPersona_contacto() %>" required>
+                                <p class="text-left mb-0">Telefono</p>
+                                <input type="text" name="telefonoEdit" class="form-control mt-1" pattern="[0-9]{9}" value="<%= pr.getTelefono() %>" required>
+                                <input type="submit" name="envio" value="Añadir" class="btn btn-modal btn-block mt-4">
                             </div>
                             <div class="col-6">                           
-                                <p>Direccion</p>
-                                <input type="text" name="direccionEdit" class="form-control mb-2" value="<%= pr.getDireccion() %>" required>
-                                <p>Localidad</p>
-                                <input type="text" name="localidadEdit" class="form-control mb-2" value="<%= pr.getLocalidad() %>" required>
-                                <p>Provincia</p>
-                                 <input type="text" name="provinciaEdit" class="form-control" value="<%= pr.getProvincia() %>" required>
+                                <p class="text-left mb-0">Direccion</p>
+                                <input type="text" name="direccionEdit" class="form-control mb-2 mt-1" value="<%= pr.getDireccion() %>" required>
+                                <p class="text-left mb-0">Localidad</p>
+                                <input type="text" name="localidadEdit" class="form-control mb-2 mt-1" value="<%= pr.getLocalidad() %>" required>
+                                <p class="text-left mb-0">Provincia</p>
+                                <input type="text" name="provinciaEdit" class="form-control mt-1" value="<%= pr.getProvincia() %>" required>
+                                <a href="inicioTrabajadorAdmin.jsp" class="btn btn-modal btn-block mt-4">Cancelar</a> 
                             </div>                    
-                            <p><input type="submit" name="envio" value="Añadir" class="btn m-4 btn-modal inicio"><a href="inicioTrabajadorAdmin.jsp" class="btn btn-modal inicio">Cancelar</a></p>
                             </div>
                         </form>
 		</div>

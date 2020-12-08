@@ -5,13 +5,19 @@
  */
 package chats;
 
+import controlador.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import modelo.Chat;
 
 /**
  *
@@ -30,8 +36,21 @@ public class NuevoChat extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
+        int id_objeto = Integer.parseInt(request.getParameter("id_objeto"));
+        String dni_persona = request.getParameter("id_persona");
+        String dni_responsable = request.getParameter("id_responsable");
         
+        Chat ct = new Chat();
+        ct.setDni_persona_fk(dni_persona);
+        ct.setDni_responsable_fk(dni_responsable);
+        ct.setId_objeto_fk(id_objeto);
+        
+        Conexion.CrearChat(ct);
+        HttpSession session = request.getSession();
+        session.setAttribute("Chat", Conexion.CogerChat(dni_persona, dni_responsable,id_objeto));
+        
+        response.sendRedirect("verChat.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -46,7 +65,11 @@ public class NuevoChat extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(NuevoChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -60,7 +83,11 @@ public class NuevoChat extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(NuevoChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

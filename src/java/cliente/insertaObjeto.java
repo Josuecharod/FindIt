@@ -6,10 +6,7 @@
 package cliente;
 
 import controlador.Conexion;
-import static cliente.SubirFoto.TAM_BUFFER;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +19,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import modelo.Cliente;
 import modelo.ObjetoPerdido;
 import modelo.PuntoRecogida;
@@ -89,9 +85,7 @@ public class insertaObjeto extends HttpServlet {
           Conexion.añadirObjetoPerdido(op);
           
           session.removeAttribute("verFormularioObjeto"); 
-          
-          session.setMaxInactiveInterval(5); //"tiempo de vida de la session"
-          session.setAttribute("ObjetoCreado", true);
+         
           
           response.sendRedirect("inicioClie.jsp");
           

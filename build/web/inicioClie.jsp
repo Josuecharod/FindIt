@@ -10,8 +10,15 @@
 <%@page import="modelo.Cliente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    //si no existe la session de usuario, que es con la que trabajamos en las ventanas de usuario, se vuelve para el index.jsp
+    if(!(session.getAttribute("usuario")!= null)){
+       request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+%>
 <html lang="es">
      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -24,16 +31,9 @@
         <script src="javascriptMapas/cargaMapaLocales.js"></script>
         <script src="javascriptMapas/funcionesVarias.js"></script>
         <script src="jquery.js"></script>
-        <% 
-          if(session.getAttribute("ObjetoCreado")!= null){
-        %>
-           <script>
-             alert("Objeto creado correctamente, deberá subirle una foto siguiendo los siguientes pasos \n\ Click en su foto > historial de objetos subidos > subir foto del objeto encontrado ");
-           </script>
-        <%   }  %>
 
 </head>
-<body>
+<body>    
 	<main id="principal" class="container-fluid p-0">
 		<nav class="navbar navbar-expand-lg navbar-light d-flex justify-content-end" id="barra">
 		  <% Cliente clie = (Cliente)session.getAttribute("usuario"); %>
@@ -78,56 +78,25 @@
                 <div id="insertarObjeto" class="col-sm-10 offset-sm-1 mb-3 mt-5 text-center">
                     <p class="lead font-weight-bold">Introduce los datos del objeto que has encontrado</p>        
                     <form action="insertaObjeto" method="post">
-                      <div class="form-row mt-2">
-                        <div class="col">
-                            <div class="form-row mt-2">
-                                <div class="col">
-                                    <span class="mr-2"> ¿Qué es? </span>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control mr-2" id="nombreInserta" name="nombreInserta" required>
-                                </div>    
-                            </div>
-                            <div class="form-row mt-2">
-                                <div class="col">
-                                    <span class="mr-2"> Descripción </span>
-                                </div>
-                                <div class="col">
-                                    <textarea id="descripcionInserta" name="descripcionInserta" class="mr-2" cols="45" rows="10" maxlength="200" placeholder="Describre brevemente el objeto" required></textarea>
-                                </div>    
-                            </div>
-                            <div class="form-row mt-2">
-                                <div class="col">
-                                    <span class="mr-2"> Dirección donde lo encontraste </span>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control mr-2" id="direccionInserta" name="direccionInserta" required>
-                                </div>    
-                            </div>
-                            <div class="form-row mt-2">
-                                <div class="col">
-                                    <input type="text" class="form-control mr-2" id="localidadInserta" name="localidadInserta" placeholder="Localidad" required>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control mr-2" id="provinciaInserta" name="provinciaInserta" placeholder="Provincia" required>
-                                </div>    
-                            </div>
+                      <div class="mt-2 d-flex container-fluid row">
+                        <div class="d-flex flex-column col-lg-6 col-12">
+                                 <p class="text-left mb-0"> ¿Qué es? </p>
+                                 <input type="text" class="form-control mb-2 mt-1" id="nombreInserta" name="nombreInserta" required>
+                                 <p class="text-left mb-0"> Descripción </p>
+                                 <textarea id="descripcionInserta" name="descripcionInserta" class="form-control mb-2 mt-1" cols="10" rows="5" maxlength="200" placeholder="Describre brevemente el objeto" required></textarea>   
+                                 <p class="text-left mb-0"> Dirección donde lo encontraste </p>
+                                 <input type="text" class="form-control mb-2 mt-1" id="direccionInserta" name="direccionInserta" placeholder="Dirección" required>
+                                 <input type="text" class="form-control mb-2 mt-1" id="localidadInserta" name="localidadInserta" placeholder="Localidad" required>
+                                 <input type="text" class="form-control mt-1 mb-2" id="provinciaInserta" name="provinciaInserta" placeholder="Provincia" required>
+                        
                         </div>
-                        <div class="col">
-                            <div class="form-row mt-2">
-                                <div class="col">
-                                    <span class="mr-2"> Local donde dejarás el objeto </span>
-                                </div>
-                                
-                                <div class="col">
-                                    <input type="text" class="form-control mr-2" id="localInserta" name="localInserta" placeholder="Nombre del local (Ver en el marcador)" required>
-                                </div>    
-                               
-                             </div>
-                            
-                            <div id="mapaLocales" class="ml-4 mt-4">
+                        <div class="d-flex flex-column col-lg-6 col-12">
+                            <p class="text-left mb-0"> Local donde dejarás el objeto </p>
+                            <input type="text" class="form-control mb-2 mt-1" id="localInserta" name="localInserta" placeholder="Nombre del local (Ver en el marcador)" required>
+                            <div id="mapaLocales">
                                
                             </div>
+                            
                             <script> initMap(); </script>
                             <% for(PuntoRecogida pr : prList){ 
                                 String direccion = pr.getDireccion()+" "+pr.getLocalidad()+","+pr.getProvincia();
@@ -137,11 +106,17 @@
                                     getCoords('<%=nombreLocal %>','<%=direccion %>');
                                 </script>
                             <% } %>
-                           
+                            
+                        </div>
+                      </div>  
+                      <div class="d-flex container-fluid row">
+                        <div class="col-lg-6 col-12">
+                            <input type="submit" name="envioObjeto" value="Insertar el objeto" class="btn btn-modal btn-block mt-2">
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <a class="btn btn-modal btn-block mt-2" href="CerrarAncla">Cancelar</a>
                         </div>
                       </div>
-                     <p> <input type="submit" name="envioObjeto" value="Insertar el objeto" class="btn btn-dark text-light m-4"><a class="btn btn-dark text-light m-4" href="CerrarAncla">Cancelar</a></p>
-                    
                     </form>
                     
                 </div>
@@ -152,29 +127,42 @@
             <% } %>
             
             <% if(session.getAttribute("verEditar") != null){ %>
-                <div id="EditarDatos" class="col-sm-10 offset-sm-1 mb-3 mt-5 text-center">
-                    <p class="lead font-weight-bold">Edita tus datos</p>  
+                <div id="EditarDatos" class="col-md-10 offset-md-1 mb-3 mt-5 text-center">
+                    <div class="py-3 px-4" style="border:1px solid rgba(0,0,0,0.2);border-radius: 10px">
                     <form action="EditarDatosClie" method="post">
-                        <div class="form-row">
-                            <div class="col-6">
-                                <p>Nombre</p>
-                                <input type="text" name="nombreEdit" class="form-control mb-2" value="<%=clie.getNombre()%>" required>
-                                <p>Apellidos</p>
-                                <input type="text" name="apellidosEdit" class="form-control mb-2" value="<%= clie.getApellidos()%>" required>
-                                <p>Telefono</p>
-                                 <input type="text" name="telefonoEdit" class="form-control" pattern="[0-9]{9}" value="<%= clie.getTelefono() %>" required>
+                        <div class="mt-2 d-flex container-fluid row">
+                            <div class="d-flex flex-column col-lg-6 col-12">
+                                <p class="text-left mb-0">Nombre</p>
+                                <input type="text" name="nombreEdit" class="form-control mb-2 mt-1" value="<%=clie.getNombre()%>" required>
+                                <p class="text-left mb-0">Apellidos</p>
+                                <input type="text" name="apellidosEdit" class="form-control mb-2 mt-1" value="<%= clie.getApellidos()%>" required>
+                                <p class="text-left mb-0">Teléfono</p>
+                                 <input type="text" name="telefonoEdit" class="form-control mb-2 mt-1" pattern="[0-9]{9}" value="<%= clie.getTelefono() %>" required>
+                                <p class="text-left mb-0">Correo</p>
+                                <input type="email" name="correoEdit" class="form-control mt-1" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" value="<%= clie.getCorreo() %>" required>
+                                
                             </div>
-                            <div class="col-6">                           
-                                <p>Provincia</p>
-                                <input type="text" name="provinciaEdit" class="form-control mb-2" value="<%= clie.getProvincia()%>" required>
-                                <p>Localidad</p>
-                                <input type="text" name="localidadEdit" class="form-control mb-2" value="<%= clie.getLocalidad()%>" required>
-                                <p>Direccion</p>
-                                <input type="text" name="direccionEdit" class="form-control mb-2" value="<%= clie.getDireccion()%>" required>
+                            <div class="d-flex flex-column col-lg-6 col-12">                           
+                                <p class="text-left mb-0">Provincia</p>
+                                <input type="text" name="provinciaEdit" class="form-control mb-2 mt-1" value="<%= clie.getProvincia()%>" required>
+                                <p class="text-left mb-0">Localidad</p>
+                                <input type="text" name="localidadEdit" class="form-control mb-2 mt-1" value="<%= clie.getLocalidad()%>" required>
+                                <p class="text-left mb-0">Dirección</p>
+                                <input type="text" name="direccionEdit" class="form-control mb-2 mt-1" value="<%= clie.getDireccion()%>" required>
+                                <p class="text-left mb-0">Contraseña</p>
+                                <input type="password" name="passEdit" class="form-control mt-1" value="<%= clie.getPass() %>" required>
                             </div>
                         </div>  
-                        <p><input type="submit" name="editarDatos" value="Editar Datos" class="btn btn-dark text-light m-4"><a class="btn btn-dark text-light m-4" href="CerrarAncla">Cancelar</a></p>
+                         <div class="mt-2 d-flex container-fluid row">
+                            <div class="col-lg-6 col-12">
+                                <input type="submit" name="editarDatos" value="Editar Datos" class="btn btn-modal btn-block mt-2">
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <a class="btn btn-modal btn-block mt-2" href="CerrarAncla">Cancelar</a>
+                            </div>
+                         </div>
                     </form>
+                    </div>
                 </div>
                             
                 <script>
@@ -184,12 +172,14 @@
             
             
             <% if(session.getAttribute("verSubirFoto") != null){ %>
-                <div id="subirFoto" class="col-sm-10 offset-sm-1 mb-3 mt-5 text-center">
+                <div id="subirFoto" class="col-sm-8 offset-sm-2 mb-3 mt-5 text-center">
                     <p class="lead font-weight-bold">Elige tu foto de perfil y cambialo</p>  
-                    <form action="SubirFoto" method="post" enctype="multipart/form-data">
-                        <p><input type="file" name="fichero"></p>
-                        <p><input type="submit" name="subirFoto" value="Cambia Foto" class="btn btn-dark text-light m-4"><a class="btn btn-dark text-light m-4" href="CerrarAncla">Cancelar</a></p>
-                    </form>
+                    <div class="py-3 px-4" style="border:1px solid rgba(0,0,0,0.2);border-radius: 10px">
+                        <form action="SubirFoto" method="post" enctype="multipart/form-data">
+                            <p><input type="file" name="fichero" class="mt-4"></p>
+                            <p><input type="submit" name="subirFoto" value="Cambia Foto" class="btn btn-modal m-4"><a class="btn btn-modal m-4" href="CerrarAncla">Cancelar</a></p>
+                        </form>
+                    </div>
                 </div>
                 <script>
                     goToByScroll('subirFoto');
@@ -197,40 +187,56 @@
             <% } %>
             
             <% if(session.getAttribute("verHistorialObjetos") != null){ %>
-                <div id="historialObjetos" class="col-sm-10 offset-sm-1 mb-3 mt-5 text-center">
+                <div id="historialObjetos" class="col-sm-10 offset-sm-1 mb-5 mt-5   text-center">
+                    <% List<ObjetoPerdido> listObj = (List<ObjetoPerdido>)session.getAttribute("objetosSubidos"); 
+                       if(listObj.size()!=0){ %>
                     <p class="lead font-weight-bold">Historial de objetos que has encontrado</p>
                     <p class="lead font-weight-bold">Podrás ver si por fin lo ha encontrado su dueño y subirle una foto</p>
-                    <table class="col-12">
-                        <tr>
+                    <table class="table mt-4">
+                        <thead style="background-color: #353449; color:#FFFFFF;">
+                          <tr>
                             <th> NOMBRE </th>
                             <th> FECHA Y HORA DE SUBIDA </th>
-                            <th> ESTADO </th>
                             <th> <%-- Hueco para boton subir foto --%> </th>
-                        </tr>
-                    <% List<ObjetoPerdido> listObj = (List<ObjetoPerdido>)session.getAttribute("objetosSubidos"); 
-                       for(ObjetoPerdido o : listObj){
+                          </tr>
+                        </thead>
+                        <tbody>
+                    <% 
+                        for(ObjetoPerdido o : listObj){
                     %>
                             <tr>
                                 <td><%= o.getNombre() %></td>
                                 <td><%= o.getFecha_subida() %></td>
-                                <td><%= o.getEstado()%></td>
-                                <% if(o.getImagen().equals("objetoSinImagen.jpg")){%>
+                                <% 
+                                   if(!o.getEstado()){ 
+                                    if(o.getImagen().equals("objetoSinImagen.jpg")){%>
                                     <td>
                                         <form action="SubirFotoObjeto?id=<%= o.getId() %>" method="post" enctype="multipart/form-data">
-                                            <input type="file" name="fotoObjeto"><input type="submit" name="cambiarFotoObjeto" value="Subir foto al objeto" class="btn btn-dark text-light m-4">
+                                            <input type="file" name="fotoObjeto"><input type="submit" name="cambiarFotoObjeto" value="Subir foto al objeto" class="btn btn-modal m-4">
                                         </form>
                                     </td>
                                 <%}else{%>
                                     <td>
-                                        <a href="imagenes/<%=o.getImagen()%>">Ver imágen subida del objeto</a>
+                                        <a href="imagenes/<%=o.getImagen()%>" target="_blank">Ver imágen subida del objeto</a>
                                     </td>         
-                                <% } %>
+                                <% } }else{ %>
+                                    <td>Este objeto ha sido encontrado!!!</td> 
+                                <% }%>
                             </tr>
-                    <% } %>
-                    </table>
-                    
-                    
-                    <p><a class="btn btn-dark text-light m-4" href="CerrarAncla">Cancelar</a></p>
+                    <% }%>
+                    </tbody>
+                    </table>  
+                    <% }else{ %> 
+                        <div class="form-row d-flex align-items-stretch flex-column-reverse flex-md-row">
+                            <div class="col-12 col-md-6 d-flex justify-content-center">
+                                <img src="imagenes/sinBusqueda.png" class='imagenes-cambios'>
+                            </div>
+                            <div class="col-12 col-md-6 fondo-texto-verde p-4 d-flex flex-column justify-content-center">
+                                <p class="h2">No ha subido ningún objeto, si encuentra algo, subalo!!!</p>
+                            </div>
+                        </div>
+                    <% }%>
+                    <p><a class="btn btn-modal btn-block mt-3" href="CerrarAncla">Cancelar</a></p>
                 </div>
                 <script>
                     goToByScroll('historialObjetos');

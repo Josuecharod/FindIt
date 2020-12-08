@@ -50,7 +50,7 @@ public class RegistroClie extends HttpServlet {
        Conexion.RegistroCliente(clie);
        
        request.getSession().setAttribute("usuario",clie);
-       response.sendRedirect("inicio.jsp");
+       response.sendRedirect("inicioClie.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -23,14 +23,14 @@ public class ObjetoPerdido {
   int id_punto_recogida;
   String dni_persona_encuentra;
   String dni_persona_responsable;
-  
+  String dni_persona_propietaria;
  
  
     public ObjetoPerdido() {
         this.estado = false;
     }
 
-    public ObjetoPerdido(int id, String nombre, String descripcion, String imagen, String direccion_encontrado, String localidad, String provincia, String fecha_subida, int id_punto_recogida, String dni_persona_encuentra, String dni_persona_responsable) {
+    public ObjetoPerdido(int id, String nombre, String descripcion, String imagen, String direccion_encontrado, String localidad, String provincia, String fecha_subida, int id_punto_recogida, String dni_persona_encuentra, String dni_persona_responsable, String dni_persona_propietaria) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -43,6 +43,7 @@ public class ObjetoPerdido {
         this.id_punto_recogida = id_punto_recogida;
         this.dni_persona_encuentra = dni_persona_encuentra;
         this.dni_persona_responsable = dni_persona_responsable;
+        this.dni_persona_propietaria = dni_persona_propietaria;
     }
 
     public int getId() {
@@ -141,10 +142,17 @@ public class ObjetoPerdido {
         this.dni_persona_responsable = dni_persona_responsable;
     }
 
+    public String getDni_persona_propietaria() {
+        return dni_persona_propietaria;
+    }
+
+    public void setDni_persona_propietaria(String dni_persona_propietaria) {
+        this.dni_persona_propietaria = dni_persona_propietaria;
+    }
+
     @Override
     public String toString() {
-        return "ObjetoPerdido{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", imagen=" + imagen + ", direccion_encontrado=" + direccion_encontrado + ", localidad=" + localidad + ", provincia=" + provincia + ", estado=" + estado + ", fecha_subida=" + fecha_subida + ", id_punto_recogida=" + id_punto_recogida + ", dni_persona_encuentra=" + dni_persona_encuentra + ", dni_persona_responsable=" + dni_persona_responsable + '}';
+        return "ObjetoPerdido{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", imagen=" + imagen + ", direccion_encontrado=" + direccion_encontrado + ", localidad=" + localidad + ", provincia=" + provincia + ", estado=" + estado + ", fecha_subida=" + fecha_subida + ", id_punto_recogida=" + id_punto_recogida + ", dni_persona_encuentra=" + dni_persona_encuentra + ", dni_persona_responsable=" + dni_persona_responsable + ", dni_persona_propietaria=" + dni_persona_propietaria + '}';
     }
     
-
 }

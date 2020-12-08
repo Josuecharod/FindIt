@@ -9,8 +9,14 @@
 <%@page import="modelo.Trabajador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<% 
+    if(!(session.getAttribute("trabajador")!= null)){
+       request.getRequestDispatcher("indexTra.jsp").forward(request, response);
+    }
+%>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,8 +36,9 @@
             </nav>
             
             <div id="tablaTrabajadores" class="container-fluid">
+                <div style="overflow-x:scroll;">
                 <table class="table mt-4">
-                        <thead class="table-dark">
+                        <thead style="background-color: #353449; color:#FFFFFF;">
                         <tr>
                             <th> NOMBRE LOCAL </th>
                             <th> DIRECCION </th>
@@ -63,6 +70,7 @@
                              </tr>
                         </tfoot>
                     </table>
+                    </div>
             </div>
         </main>       
     </body>
